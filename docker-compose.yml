@@ -1,0 +1,50 @@
+services:
+  opencode:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./config:/root/.config/opencode
+      - workspace:/workspace
+    networks:
+      - internal
+
+  openchamber:
+    image: ghcr.io/openchamber/openchamber:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - OPENCODE_HOST=http://opencode:4096
+      - OPENCODE_SKIP_START=true
+      - UI_PASSWORD=${OPENCHAMBER_UI_PASSWORD}
+    volumes:
+      - openchamber_data:/home/openchamber
+      - workspace:/workspace
+    networks:
+      - internal
+    depends_on:
+      - opencode
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+    depends_on:
+      - openchamber
+
+volumes:
+  workspace:
+  caddy_data:
+  caddy_config:
+  openchamber_data:
+
+networks:
+  internal:
