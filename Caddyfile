@@ -1,7 +1,3 @@
 {$DOMAIN} {
-	basic_auth {
-		{$CADDY_AUTH_USER} {$CADDY_AUTH_PASSWORD_HASH}
-	}
-
-	reverse_proxy openchamber:3000
+    reverse_proxy openchamber:3000
 }

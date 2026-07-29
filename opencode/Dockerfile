@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN npm install -g opencode-ai
 
-RUN mkdir -p /workspace /root/.config/opencode /root/.git
+RUN mkdir -p /workspace /root/.config/opencode /root/.local/share/opencode /root/.git
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

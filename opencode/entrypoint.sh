@@ -8,4 +8,16 @@ if [ -n "$GITHUB_PAT" ]; then
   git config --global user.name "OpenCode"
 fi
 
+if [ -n "$OPENCODE_GO_API_KEY" ]; then
+  mkdir -p /root/.local/share/opencode
+  cat > /root/.local/share/opencode/auth.json <<EOF
+{
+  "opencode-go": {
+    "type": "api",
+    "key": "${OPENCODE_GO_API_KEY}"
+  }
+}
+EOF
+fi
+
 exec opencode serve
