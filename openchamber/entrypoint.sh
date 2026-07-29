@@ -3,14 +3,14 @@ set -e
 
 if [ -n "$GITHUB_PAT" ]; then
   git config --global credential.helper store
-  echo "https://x-access-token:${GITHUB_PAT}@github.com" > /root/.git-credentials
+  echo "https://x-access-token:${GITHUB_PAT}@github.com" > /home/openchamber/.git-credentials
   git config --global user.email "opencode@local"
   git config --global user.name "OpenCode"
 fi
 
 if [ -n "$OPENCODE_GO_API_KEY" ]; then
-  mkdir -p /root/.local/share/opencode
-  cat > /root/.local/share/opencode/auth.json <<EOF
+  mkdir -p /home/openchamber/.local/share/opencode
+  cat > /home/openchamber/.local/share/opencode/auth.json <<EOF
 {
   "opencode-go": {
     "type": "api",
@@ -20,4 +20,4 @@ if [ -n "$OPENCODE_GO_API_KEY" ]; then
 EOF
 fi
 
-exec opencode serve
+exec openchamber serve --port 3000 --host 0.0.0.0 --foreground

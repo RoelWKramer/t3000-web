@@ -6,12 +6,11 @@ Each container in this project has its own directory containing its Dockerfile a
 
 ```
 opencode-server/
-├── opencode/              # OpenCode AI agent container
+├── openchamber/           # OpenChamber web UI + OpenCode AI agent container
 │   ├── Dockerfile
 │   ├── entrypoint.sh
 │   └── config/
-├── openchamber/           # OpenChamber web UI container
-│   └── Dockerfile
+│       └── opencode.json
 ├── docker-compose.yml     # Orchestrates all services
 ├── Caddyfile              # Reverse proxy configuration
 └── AGENTS.md              # This file

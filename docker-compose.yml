@@ -1,29 +1,16 @@
 services:
-  opencode:
-    build: ./opencode
-    restart: unless-stopped
-    env_file: .env
-    volumes:
-      - ./opencode/config:/root/.config/opencode
-      - workspace:/workspace
-    networks:
-      - internal
-
   openchamber:
     build: ./openchamber
     restart: unless-stopped
     env_file: .env
     environment:
-      - OPENCODE_HOST=http://opencode:4096
-      - OPENCODE_SKIP_START=true
       - UI_PASSWORD=${OPENCHAMBER_UI_PASSWORD}
     volumes:
       - openchamber_data:/home/openchamber
+      - ./openchamber/config:/home/openchamber/.config/opencode
       - workspace:/workspace
     networks:
       - internal
-    depends_on:
-      - opencode
 
   caddy:
     image: caddy:2-alpine
