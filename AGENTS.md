@@ -28,3 +28,29 @@ This keeps the project root clean and makes it clear which files belong to which
 ## Security Rules
 
 **NEVER read or access `.env` directly.** Always use `.env.example` as a reference for environment variable names and structure. The `.env` file contains secrets and should not be read or modified by AI agents.
+
+## Commit Messages
+
+Keep commit messages short. Format: `<type>: <short description>`
+
+**Types:**
+- `feat:` — new feature or capability
+- `fix:` — bug fix
+- `docs:` — documentation
+- `refactor:` — code restructuring (no behavior change)
+- `chore:` — maintenance (deps, config, cleanup)
+- `build:` — Dockerfile, docker-compose, CI
+
+**Rules:**
+- Max 50 characters for the subject line
+- Imperative mood ("add" not "added")
+- No period at end of subject
+- Optional body for complex changes (explain why, not what)
+
+**Examples:**
+```
+feat: add gh CLI and openssh-client
+fix: set terminal workdir to /home/openchamber
+docs: add commit conventions to AGENTS.md
+build: consolidate to single OpenChamber container
+```
