@@ -8,7 +8,6 @@ services:
     volumes:
       - openchamber_data:/home/openchamber
       - ./openchamber/config:/home/openchamber/.config/opencode
-      - workspace:/workspace
     networks:
       - internal
 
@@ -31,10 +30,9 @@ services:
       - openchamber
 
 volumes:
-  workspace:
+  openchamber_data:
   caddy_data:
   caddy_config:
-  openchamber_data:
 
 networks:
   internal:

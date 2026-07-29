@@ -1,5 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "references": {
+    "opencode-server": {
+      "path": "/home/openchamber/opencode-server"
+    }
+  },
   "server": {
     "port": 4096,
     "hostname": "0.0.0.0"
