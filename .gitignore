@@ -14,9 +14,19 @@
 # IDE
 .vscode/
 .idea/
+*.iml
+*.ipr
+*.iws
+out/
 *.swp
 *.swo
 *~
 
 # OpenCode
 .opencode/
+
+# Node.js
+node_modules
+package.json
+package-lock.json
+bun.lock

@@ -1,0 +1,14 @@
+OpenChamber has been deployed!
+
+Before accessing the service, ensure the secret exists:
+
+  kubectl create secret generic {{ .Values.secretName }} \
+    --from-literal=OPENCODE_GO_API_KEY=sk-... \
+    --from-literal=GITHUB_PAT=ghp_... \
+    --from-literal=OPENCHAMBER_UI_PASSWORD=your-password
+
+Access the service:
+
+  kubectl port-forward svc/{{ .Release.Name }} 3000:3000
+
+Then open http://localhost:3000 in your browser.
