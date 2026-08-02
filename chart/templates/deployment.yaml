@@ -30,8 +30,6 @@ spec:
               mkdir -p /home/openchamber/.config/openchamber
               mkdir -p /home/openchamber/.local/share/opencode
               chown -R 1000:1000 /home/openchamber
-              echo "=== init: after chown ==="
-              ls -laR /home/openchamber
           volumeMounts:
             - name: data
               mountPath: /home/openchamber
@@ -46,7 +44,8 @@ spec:
                 name: {{ .Values.secretName }}
           volumeMounts:
             - name: config
-              mountPath: /home/openchamber/.config/opencode
+              mountPath: /home/openchamber/.config/opencode/opencode.json
+              subPath: opencode.json
             - name: data
               mountPath: /home/openchamber
           resources:

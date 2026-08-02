@@ -20,7 +20,6 @@ RUN mkdir -p /home/openchamber/.config/opencode \
     /home/openchamber/.config/openchamber \
     /home/openchamber/.local/share/opencode \
     && chown -R openchamber:openchamber /home/openchamber
-
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
