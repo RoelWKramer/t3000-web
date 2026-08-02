@@ -25,6 +25,12 @@ When adding a new container:
 
 This keeps the project root clean and makes it clear which files belong to which service.
 
+## Local Development
+
+For Kubernetes development, **k3d** is used. The cluster is named `t3000`. Use `./build_local.sh` and `./deploy_local.sh` to build and deploy locally.
+
+Never assume or suggest other cluster types (kind, minikube, Docker Desktop, etc.). If the user asks about them, answer the question but don't propose them unprompted.
+
 ## Security Rules
 
 **NEVER read or access `.env` directly.** Always use `.env.example` as a reference for environment variable names and structure. The `.env` file contains secrets and should not be read or modified by AI agents.

@@ -13,7 +13,9 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
 
 RUN npm install -g opencode-ai @openchamber/web
 
-RUN useradd -m -d /home/openchamber -s /bin/bash openchamber
+# By default node:22-bookworm-slim has a node user.
+# Remove it to make openchamber the first user again.
+RUN userdel node && useradd -m -d /home/openchamber -s /bin/bash -u 1000 openchamber
 RUN mkdir -p /home/openchamber/.config/opencode \
     /home/openchamber/.config/openchamber \
     /home/openchamber/.local/share/opencode \

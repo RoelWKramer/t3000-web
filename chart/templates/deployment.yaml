@@ -14,12 +14,27 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
-      securityContext:
-        fsGroup: 1000
       {{- if .Values.imagePullSecret }}
       imagePullSecrets:
         - name: {{ .Values.imagePullSecret }}
       {{- end }}
+      initContainers:
+        - name: init-data
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              echo "=== init: whoami=$(whoami) id=$(id) ==="
+              mkdir -p /home/openchamber/.config/opencode
+              mkdir -p /home/openchamber/.config/openchamber
+              mkdir -p /home/openchamber/.local/share/opencode
+              chown -R 1000:1000 /home/openchamber
+              echo "=== init: after chown ==="
+              ls -laR /home/openchamber
+          volumeMounts:
+            - name: data
+              mountPath: /home/openchamber
       containers:
         - name: openchamber
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

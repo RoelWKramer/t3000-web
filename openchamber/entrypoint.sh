@@ -1,8 +1,13 @@
 #!/bin/sh
 set -e
 
+echo "=== entrypoint: whoami=$(whoami) id=$(id) HOME=$HOME ==="
+ls -laR "$HOME"
 # Ensure directories exist (pre-created in Dockerfile, but safe to retry)
 mkdir -p "$HOME/.config/openchamber" "$HOME/.local/share/opencode" 2>/dev/null || true
+echo "=== entrypoint: after mkdir ==="
+ls -laR "$HOME"
+
 
 if [ -n "$GITHUB_PAT" ]; then
   git config --global credential.helper store
