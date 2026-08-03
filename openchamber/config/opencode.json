@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "enabled_providers": ["opencode"],
   "references": {
     "opencode-server": {
       "path": "/home/openchamber/opencode-server"
