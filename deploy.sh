@@ -17,6 +17,6 @@ kubectl create secret generic openchamber-secrets \
 
 helm upgrade --install openchamber ./chart \
   --namespace "$NAMESPACE" \
-  --create-namespace \
   --set ingress.enabled=true \
-  --set ingress.host="$DOMAIN"
+  --set ingress.host="$DOMAIN" \
+  --set imagePullSecret=scw-registry
