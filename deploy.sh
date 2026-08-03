@@ -19,4 +19,5 @@ helm upgrade --install openchamber ./chart \
   --namespace "$NAMESPACE" \
   --set ingress.enabled=true \
   --set ingress.host="$DOMAIN" \
+  --set ingress.className=nginx \
   --set imagePullSecret=scw-registry

@@ -9,6 +9,7 @@ service:
 ingress:
   enabled: false
   host: ""
+  className: ""
   tls: false
   annotations: {}
 
