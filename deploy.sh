@@ -2,31 +2,25 @@
 set -euo pipefail
 
 cd "$(dirname "$0")"
-NAMESPACE="${1:-openchamber}"
-DOMAIN="${2:-$(grep '^DOMAIN=' .env 2>/dev/null | cut -d= -f2)}"
-IP="${3:-$(grep '^IP=' .env 2>/dev/null | cut -d= -f2)}"
+
+source_env() {
+  local key="$1"
+  grep "^$key=" .env 2>/dev/null | cut -d= -f2- || true
+}
+
+NAMESPACE="${NAMESPACE:-openchamber}"
+DOMAIN="$(source_env DOMAIN)"
+IP_ALLOW="$(source_env IP_ALLOW)"
 
 if [ -z "$DOMAIN" ]; then
-  echo "Error: DOMAIN not set. Add DOMAIN=<your-domain> to .env or pass as second argument." >&2
+  echo "Error: DOMAIN not set in .env" >&2
   exit 1
 fi
 
-if [ -z "$IP" ]; then
-  echo "Error: IP not set. Add IP=<your-public-ip> to .env or pass as third argument." >&2
+if [ -z "$IP_ALLOW" ]; then
+  echo "Error: IP_ALLOW not set in .env (comma-separated CIDRs, e.g. 1.2.3.4/32,10.0.0.0/8)" >&2
   exit 1
 fi
-
-TLS_CERT=$(openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /dev/stdout -out /dev/stdout \
-  -subj "/CN=$DOMAIN" 2>/dev/null)
-TLS_KEY=$(echo "$TLS_CERT" | openssl rsa -out /dev/stdout 2>/dev/null)
-TLS_CRT=$(echo "$TLS_CERT" | openssl x509 -out /dev/stdout 2>/dev/null)
-
-kubectl create secret tls openchamber-tls \
-  --namespace "$NAMESPACE" \
-  --cert=<(echo "$TLS_CRT") \
-  --key=<(echo "$TLS_KEY") \
-  --dry-run=client -o yaml | kubectl apply -f -
 
 kubectl create secret generic openchamber-secrets \
   --namespace "$NAMESPACE" \
@@ -41,4 +35,4 @@ helm upgrade --install openchamber ./chart \
   --set ingress.tls=true \
   --set imagePullSecret=scw-registry \
   --set-string "ingress.annotations.nginx\.ingress\.kubernetes\.io/force-ssl-redirect=true" \
-  --set-string "ingress.annotations.nginx\.ingress\.kubernetes\.io/whitelist-source-range=$IP"
+  --set-string "ingress.annotations.nginx\.ingress\.kubernetes\.io/whitelist-source-range=$IP_ALLOW"
