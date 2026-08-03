@@ -35,6 +35,8 @@ Never assume or suggest other cluster types (kind, minikube, Docker Desktop, etc
 
 **NEVER read or access `.env` directly.** Always use `.env.example` as a reference for environment variable names and structure. The `.env` file contains secrets and should not be read or modified by AI agents.
 
+**NEVER `git push` unless explicitly asked.** You may commit, but never push to a remote without the user requesting it.
+
 ## Commit Messages
 
 Keep commit messages short. Format: `<type>: <short description>`
