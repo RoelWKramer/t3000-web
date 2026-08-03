@@ -36,6 +36,10 @@ kubectl port-forward --namespace openchamber svc/openchamber 3000:3000
 
 ### Remote Cluster Deployment
 
+Prerequisites (set up by lifecycle 3 / infra team):
+- `openchamber` namespace exists on the cluster
+- `scw-registry` docker-registry secret is present in the namespace
+
 ```bash
 # 1. Build the image
 ./build.sh
@@ -47,7 +51,7 @@ kubectl port-forward --namespace openchamber svc/openchamber 3000:3000
 ./deploy.sh
 ```
 
-Requires authentication with the container registry. Set `imagePullSecret` in `chart/values.yaml` if the cluster needs pull credentials.
+The deploy script creates app secrets from `.env`, then installs the Helm chart with `imagePullSecret=scw-registry`.
 
 ### Local Development (skip remote registry)
 
@@ -82,13 +86,15 @@ See `chart/values.yaml` for all available options.
 
 ### Secret
 
-The chart reads environment variables from a Kubernetes Secret named `openchamber-secrets` (configurable via `secretName` in values). Create it from `.env`:
+The chart reads environment variables from a Kubernetes Secret named `openchamber-secrets` (configurable via `secretName` in values). The `deploy.sh` script creates it automatically from `.env`. To create it manually:
 
 ```bash
 kubectl create secret generic openchamber-secrets \
   --namespace openchamber \
   --from-env-file .env
 ```
+
+For remote clusters, a `scw-registry` docker-registry pull secret must also exist in the namespace (created by lifecycle 3 / `t3000-infra/k8s/bootstrap/bootstrap.sh`). The chart references it via `imagePullSecret: scw-registry`.
 
 ## Docker Commands
 
