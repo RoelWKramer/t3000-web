@@ -11,6 +11,7 @@ ingress:
   host: ""
   className: ""
   tls: false
+  tlsSecretName: ""
   annotations: {}
 
 resources:
