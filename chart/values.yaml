@@ -3,6 +3,15 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+service:
+  port: 3000
+
+ingress:
+  enabled: false
+  host: ""
+  tls: false
+  annotations: {}
+
 resources:
   requests:
     memory: "512Mi"

@@ -19,4 +19,6 @@ helm upgrade --install openchamber ./chart \
   --create-namespace \
   --set image.repository=openchamber \
   --set image.tag=local \
-  --set image.pullPolicy=Never
+  --set image.pullPolicy=Never \
+  --set ingress.enabled=true \
+  --set ingress.host=openchamber.localhost
