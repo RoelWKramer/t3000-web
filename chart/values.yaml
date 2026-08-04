@@ -10,6 +10,7 @@ ingress:
   enabled: false
   host: ""
   className: ""
+  # host defaults to <namespace>.apps.vynder.net (derived in deploy.sh)
   tls: false
   tlsSecretName: ""
   annotations: {}
