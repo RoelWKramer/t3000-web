@@ -36,3 +36,5 @@ helm upgrade --install openchamber ./chart \
   --set imagePullSecret=scw-registry \
   --set-string "ingress.annotations.nginx\.ingress\.kubernetes\.io/force-ssl-redirect=true" \
   --set-string "ingress.annotations.nginx\.ingress\.kubernetes\.io/whitelist-source-range=$IP_ALLOW"
+
+kubectl rollout restart deployment/openchamber -n "$NAMESPACE"
