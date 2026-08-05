@@ -1,6 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "enabled_providers": ["opencode"],
+  "enabled_providers": ["openai"],
+  "model": "openai/deepseek-v4-pro",
+  "small_model": "openai/deepseek-v4-pro",
   "references": {
     "opencode-server": {
       "path": "/home/openchamber/opencode-server"

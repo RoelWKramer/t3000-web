@@ -5,25 +5,12 @@ Each container in this project has its own directory containing its Dockerfile a
 ## Directory Layout
 
 ```
-opencode-server/
-├── openchamber/           # OpenChamber web UI + OpenCode AI agent container
-│   ├── Dockerfile
-│   ├── entrypoint.sh
-│   └── config/
-│       └── opencode.json
-├── docker-compose.yml     # Orchestrates all services
-├── Caddyfile              # Reverse proxy configuration
-└── AGENTS.md              # This file
+openchamber/           # OpenChamber web UI + OpenCode AI agent container
+├── Dockerfile
+├── entrypoint.sh
+└── config/
+    └── opencode.json
 ```
-
-## Convention
-
-When adding a new container:
-1. Create a directory with the service name (e.g., `newservicename/`)
-2. Place the Dockerfile and any related files in that directory
-3. Reference it in docker-compose.yml using `build: ./newservicename`
-
-This keeps the project root clean and makes it clear which files belong to which service.
 
 ## Local Development
 
@@ -47,7 +34,7 @@ Keep commit messages short. Format: `<type>: <short description>`
 - `docs:` — documentation
 - `refactor:` — code restructuring (no behavior change)
 - `chore:` — maintenance (deps, config, cleanup)
-- `build:` — Dockerfile, docker-compose, CI
+- `build:` — Dockerfile, CI
 
 **Rules:**
 - Max 50 characters for the subject line
