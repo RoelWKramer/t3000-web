@@ -5,8 +5,6 @@ echo "=== entrypoint: whoami=$(whoami) id=$(id) HOME=$HOME ==="
 # Ensure directories exist (pre-created in Dockerfile, but safe to retry)
 mkdir -p "$HOME/.config/openchamber" "$HOME/.local/share/opencode" 2>/dev/null || true
 echo "=== entrypoint: after mkdir ==="
-ls -laR "$HOME"
-
 
 if [ -n "$GITHUB_PAT" ]; then
   git config --global credential.helper store
@@ -15,15 +13,19 @@ if [ -n "$GITHUB_PAT" ]; then
   git config --global user.name "OpenCode"
 fi
 
+AUTH_FILE="$HOME/.local/share/opencode/auth.json"
+echo '{}' > "$AUTH_FILE"
+
+# Opencode-go
 if [ -n "$OPENCODE_GO_API_KEY" ]; then
-  cat > "$HOME/.local/share/opencode/auth.json" <<EOF
-{
-  "opencode-go": {
-    "type": "api",
-    "key": "${OPENCODE_GO_API_KEY}"
-  }
-}
-EOF
+  tmp=$(mktemp)
+  jq --arg key "$OPENCODE_GO_API_KEY" '. * {"opencode-go": {"type": "api", "key": $key}}' "$AUTH_FILE" > "$tmp" && mv "$tmp" "$AUTH_FILE"
+fi
+
+# Opencode (Zen)
+if [ -n "$OPENCODE_API_KEY" ]; then
+  tmp=$(mktemp)
+  jq --arg key "$OPENCODE_API_KEY" '. * {"opencode": {"type": "api", "key": $key}}' "$AUTH_FILE" > "$tmp" && mv "$tmp" "$AUTH_FILE"
 fi
 
 # Set default home and last directory if not already configured

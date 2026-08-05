@@ -8,6 +8,21 @@ data:
   opencode.json: |
     {
       "$schema": "https://opencode.ai/config.json",
+      "enabled_providers": ["openai"],
+      "model": "openai/deepseek-v4-pro",
+      "small_model": "openai/deepseek-v4-pro",
+      "provider": {
+        "opencode": {
+          "options": {
+            "apiKey": "{env:OPENCODE_API_KEY}"
+          }
+        },
+        "opencode-go": {
+          "options": {
+            "apiKey": "{env:OPENCODE_GO_API_KEY}"
+          }
+        }
+      },
       "references": {
         "opencode-server": {
           "path": "/home/openchamber/opencode-server"
