@@ -8,7 +8,7 @@ data:
   opencode.json: |
     {
       "$schema": "https://opencode.ai/config.json",
-      "enabled_providers": ["openai"],
+      "enabled_providers": ["opencode", "opencode-go"],
       "model": "openai/deepseek-v4-pro",
       "small_model": "openai/deepseek-v4-pro",
       "provider": {
