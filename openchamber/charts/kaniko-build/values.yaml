@@ -1,0 +1,16 @@
+tenant: openchamber
+app: my-app
+tag: latest
+registry:
+  endpoint: rg.nl-ams.scw.cloud
+  pushNamespace: t3000-dev
+  pushSecretName: scw-registry-push
+  dockerConfigDir: /kaniko/.docker
+image:
+  repository: ghcr.io/osscontainertools/kaniko
+  digest: sha256:4ea0e7301e3f6806de15150e4982c73018351e28c1dca6947bd3b4afb5ae3c60
+  pullPolicy: IfNotPresent
+build:
+  dockerfile: Dockerfile
+  context: /src
+  contextConfigMap: my-app-build-context

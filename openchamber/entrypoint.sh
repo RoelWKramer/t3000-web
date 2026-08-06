@@ -4,6 +4,9 @@ set -e
 echo "=== entrypoint: whoami=$(whoami) id=$(id) HOME=$HOME ==="
 # Ensure directories exist (pre-created in Dockerfile, but safe to retry)
 mkdir -p "$HOME/.config/openchamber" "$HOME/.local/share/opencode" 2>/dev/null || true
+
+export HELM_CACHE_HOME="$HOME/.cache/helm"
+export HELM_CONFIG_HOME="$HOME/.config/helm"
 echo "=== entrypoint: after mkdir ==="
 
 if [ -n "$GITHUB_PAT" ]; then

@@ -1,0 +1,60 @@
+{{- $image := printf "%s/%s/%s/%s:%s" .Values.registry.endpoint .Values.registry.pushNamespace .Values.tenant .Values.app .Values.tag }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: build-{{ .Values.app }}
+  namespace: {{ .Values.tenant }}
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app }}
+        tenant: {{ .Values.tenant }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: kaniko
+          image: "{{ .Values.image.repository }}@{{ .Values.image.digest }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
+          env:
+            - name: DOCKER_CONFIG
+              value: {{ .Values.registry.dockerConfigDir }}
+          command:
+            - /kaniko/executor
+          args:
+            - --context=dir://{{ .Values.build.context }}
+            - --dockerfile={{ .Values.build.context }}/{{ .Values.build.dockerfile }}
+            - --destination={{ $image }}
+            - --force
+          volumeMounts:
+            - name: context
+              mountPath: {{ .Values.build.context | quote }}
+              readOnly: true
+            - name: registry-auth
+              mountPath: {{ .Values.registry.dockerConfigDir }}
+              readOnly: true
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 2Gi
+      volumes:
+        - name: context
+          configMap:
+            name: {{ .Values.build.contextConfigMap }}
+        - name: registry-auth
+          secret:
+            secretName: {{ .Values.registry.pushSecretName }}
+            items:
+              - key: .dockerconfigjson
+                path: config.json
