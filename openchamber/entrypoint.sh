@@ -42,4 +42,9 @@ if ! jq -e '.homeDirectory' "$SETTINGS_FILE" >/dev/null 2>&1; then
   jq --arg dir "$HOME" '.homeDirectory = $dir | .lastDirectory = $dir' "$SETTINGS_FILE" > "$tmp" && mv "$tmp" "$SETTINGS_FILE"
 fi
 
+# Install OpenCode plugins into the config directory so OpenCode auto-loads them
+#mkdir -p "$HOME/.config/opencode/plugins"
+#cp -r /opt/opencode/plugins/k8s-monitor "$HOME/.config/opencode/plugins/"
+#echo "=== entrypoint: plugins installed ==="
+
 exec openchamber serve --port 3000 --host 0.0.0.0 --foreground

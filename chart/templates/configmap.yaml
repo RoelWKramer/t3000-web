@@ -8,6 +8,7 @@ data:
   opencode.json: |
     {
       "$schema": "https://opencode.ai/config.json",
+      "plugin": ["/opt/opencode/plugins/k8s-monitor/index.mjs"],
       "enabled_providers": ["opencode", "opencode-go"],
       "model": "openai/deepseek-v4-pro",
       "small_model": "openai/deepseek-v4-pro",

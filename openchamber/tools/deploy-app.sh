@@ -70,7 +70,7 @@ BUILD_JOB="job/build-$APP_NAME"
 echo "==> Waiting for $BUILD_JOB to complete..."
 
 kubectl wait --for=condition=complete "$BUILD_JOB" \
-  -n "$NAMESPACE" --timeout=600s
+  -n "$NAMESPACE" --timeout=120s
 
 echo "==> Build logs:"
 BUILD_POD=$(kubectl get pods -n "$NAMESPACE" -l "app=$APP_NAME" -o name | tail -1)

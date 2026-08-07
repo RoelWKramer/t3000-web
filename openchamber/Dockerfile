@@ -28,10 +28,11 @@ RUN userdel node && useradd -m -d /home/openchamber -s /bin/bash -u 1000 opencha
 COPY skills/ /opt/opencode/skills/
 COPY tools/ /opt/opencode/tools/
 COPY charts/ /opt/opencode/charts/
+COPY config/plugins/ /opt/opencode/plugins/
 COPY config/skills-config.json /etc/opencode/skills-config.json
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh /opt/opencode/tools/*.sh \
-    && chown -R openchamber:openchamber /opt/opencode /etc/opencode/skills-config.json
+    && chown -R openchamber:openchamber /opt/opencode /etc/opencode
 
 USER openchamber
 WORKDIR /home/openchamber
