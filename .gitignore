@@ -22,6 +22,9 @@ out/
 *.swo
 *~
 
+# Build artifacts
+.build-tag
+
 # OpenCode
 .opencode/
 

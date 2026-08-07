@@ -24,6 +24,8 @@ Never assume or suggest other cluster types (kind, minikube, Docker Desktop, etc
 
 **NEVER `git commit` or `git push` unless explicitly asked.**
 
+**NEVER have the Dockerfile copy or write files under `/home/openchamber`.** That directory is mounted via a Kubernetes PersistentVolume at runtime, so build-time files are hidden. Use `/opt/opencode/` for system files and `/etc/opencode/` for system config.
+
 ## Commit Messages
 
 Keep commit messages short. Format: `<type>: <short description>`

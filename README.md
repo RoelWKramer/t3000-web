@@ -96,6 +96,29 @@ kubectl create secret generic openchamber-secrets \
 
 For remote clusters, a `scw-registry` docker-registry pull secret must also exist in the namespace (created by lifecycle 3 / `t3000-infra/k8s/bootstrap/bootstrap.sh`). The chart references it via `imagePullSecret: scw-registry`.
 
+## Container Design
+
+The container uses a **system-vs-user config layering** pattern.
+
+### Persistent home directory
+
+`/home/openchamber` is mounted via a Kubernetes PersistentVolume so user data — git config, shell history, helm repos, personal OpenCode skills — survives pod restarts. Build-time files written there are hidden by the mount.
+
+### System files (read-only, baked into image)
+
+| Path | Contents |
+|---|---|
+| `/opt/opencode/skills/` | Pre-installed OpenCode skills |
+| `/opt/opencode/tools/` | Shell tools (deploy-app.sh, etc.) |
+| `/opt/opencode/charts/` | Helm charts |
+| `/etc/opencode/skills-config.json` | OpenCode config that wires skills.paths |
+
+OpenCode discovers both system and user skills — system via `OPENCODE_CONFIG` pointing to `/etc/opencode/skills-config.json`, and user skills automatically from `~/.config/opencode/skills/`.
+
+### Rule
+
+**Never copy files to `/home/openchamber/` in the Dockerfile.** They'll be invisible at runtime. Use `/opt/opencode/` for system files and `/etc/opencode/` for config.
+
 ## Docker Commands
 
 ```bash

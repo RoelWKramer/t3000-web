@@ -7,6 +7,7 @@ mkdir -p "$HOME/.config/openchamber" "$HOME/.local/share/opencode" 2>/dev/null |
 
 export HELM_CACHE_HOME="$HOME/.cache/helm"
 export HELM_CONFIG_HOME="$HOME/.config/helm"
+export OPENCODE_CONFIG=/etc/opencode/skills-config.json
 echo "=== entrypoint: after mkdir ==="
 
 if [ -n "$GITHUB_PAT" ]; then

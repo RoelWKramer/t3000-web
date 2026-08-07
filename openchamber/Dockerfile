@@ -23,19 +23,15 @@ RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm
 RUN npm install -g opencode-ai @openchamber/web@1.18.1
 
 RUN userdel node && useradd -m -d /home/openchamber -s /bin/bash -u 1000 openchamber
-RUN mkdir -p /home/openchamber/.config/opencode \
-    /home/openchamber/.config/openchamber \
-    /home/openchamber/.local/share/opencode \
-    /home/openchamber/.cache/helm \
-    /home/openchamber/.config/helm \
-    && chown -R openchamber:openchamber /home/openchamber
+# Note: Never copy anything to /home/openchamber, it is overwritten by a container mount
 
-COPY skills/ /home/openchamber/.config/opencode/skills/
+COPY skills/ /opt/opencode/skills/
 COPY tools/ /opt/opencode/tools/
 COPY charts/ /opt/opencode/charts/
+COPY config/skills-config.json /etc/opencode/skills-config.json
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh /opt/opencode/tools/*.sh \
-    && chown -R openchamber:openchamber /home/openchamber/.config/opencode/skills /opt/opencode
+    && chown -R openchamber:openchamber /opt/opencode /etc/opencode/skills-config.json
 
 USER openchamber
 WORKDIR /home/openchamber
